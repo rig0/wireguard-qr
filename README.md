@@ -1,6 +1,6 @@
 # Wireguard-QR
 
-A self hosted QR code generator for wireguard configuartions. I'm aware of online solutions but I wanted something simple that I could self host. You just never know where your keys might end up when using public websites. This app is intended to run locally preferably behind a reverse proxy. 
+A self hosted QR code generator for wireguard configurations. I'm aware of online solutions but I wanted something simple that I could self host. You just never know where your keys might end up when using public websites. This app is intended to run locally preferably behind a reverse proxy. 
 
 
 # Features
@@ -58,7 +58,7 @@ docker-compose up -d
 
 ### Option 3: Node.js (from source)
 
-##### Install dependancies
+##### Install dependencies
 ```bash
 sudo apt update && sudo apt dist-upgrade -y && sudo apt install nodejs npm git -y
 ```
@@ -83,11 +83,11 @@ npm install
 node app.js
 ```
 
-## Behaviour
+## Behavior
 - Treats Private Keys and PreShared Keys as sensitive passwords so they aren't shown in the interface and aren't saved by the browser.
 - Clears all forms after creating QR code
 - Clears all forms on page refresh
-- No confgurations or QR codes are saved/logged either client side or server side
+- No configurations or QR codes are saved/logged either client side or server side
 
 ## To Do:
 - Validate configs before creating QR code
