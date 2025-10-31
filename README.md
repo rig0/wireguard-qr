@@ -24,7 +24,7 @@ A self hosted QR code generator for wireguard configuartions. I'm aware of onlin
 # Setup
 
 ### Option 1: Docker Compose (latest release)
-![Docker Registry Status](https://status.nex.io/api/badge/34/status?style=for-the-badge) ![Docker Registry Uptime](https://status.nex.io/api/badge/34/uptime?style=for-the-badge)
+![Docker Registry Status](https://services.rigslab.com/api/badge/34/status?style=for-the-badge) ![Docker Registry Uptime](https://services.rigslab.com/api/badge/34/uptime?style=for-the-badge)
 
 ```yaml
 version: "3"
