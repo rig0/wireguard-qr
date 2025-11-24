@@ -17,6 +17,13 @@
         <br>
         <img src="/css/wg-qr.png" alt="App Icon" class="icon">
 
+        <!-- Error Display -->
+        <div id="error-container" class="error-container" style="display: none;">
+            <h3>Validation Errors:</h3>
+            <ul id="error-list"></ul>
+            <button type="button" onclick="clearErrors()">Dismiss</button>
+        </div>
+
         <!-- WireGuard Form -->
         <form id="wireguard-form">
             <h2>Interface</h2>
@@ -85,10 +92,16 @@
             <span id="close-popup">&times;</span>
             <h2>Generated QR Code</h2>
             <img id="qr-code-image" alt="QR Code">
+            <br>
+            <button id="download-config-btn" type="button">Download Config</button>
         </div>
     </div>
     
     <script>
+        // Global variable to store current config (temporary, in-memory only)
+        // SECURITY: This is cleared when popup closes
+        let currentConfig = null;
+
         // Handle QR code generation from WireGuard form
         const form = document.getElementById('wireguard-form');
         const popup = document.getElementById('qr-popup');
@@ -97,24 +110,39 @@
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            clearErrors(); // Clear any previous errors
+
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
 
-            const response = await fetch('/create-qr', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
+            try {
+                const response = await fetch('/create-qr', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
 
-            const result = await response.json();
-            if (result.qrCode) {
-                qrCodeImage.src = result.qrCode;
-                popup.style.display = 'block';
-                form.reset();
-                const keyForm = document.getElementById('key-gen-form');
-                keyForm.reset();
-                const uploadForm = document.getElementById('upload-form');
-                uploadForm.reset();
+                const result = await response.json();
+
+                if (response.ok && result.qrCode) {
+                    // Store config and display QR code
+                    currentConfig = result.config;
+                    qrCodeImage.src = result.qrCode;
+                    popup.style.display = 'block';
+
+                    // Reset forms
+                    form.reset();
+                    const keyForm = document.getElementById('key-gen-form');
+                    keyForm.reset();
+                    const uploadForm = document.getElementById('upload-form');
+                    uploadForm.reset();
+                } else {
+                    // Display validation errors
+                    displayErrors(result.errors || [result.error]);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                displayErrors(['Failed to generate QR code. Please try again.']);
             }
         });
 
@@ -122,31 +150,40 @@
         document.getElementById('uploadButton').addEventListener('click', () => {
             const fileInput = document.getElementById('configFile');
             if (fileInput.files.length === 0) {
-                alert("Please select a configuration file to upload.");
+                displayErrors(['Please select a configuration file to upload']);
                 return;
             }
 
+            clearErrors(); // Clear any previous errors
+
             const reader = new FileReader();
-            reader.onload = function (event) {
+            reader.onload = async function (event) {
                 const configContent = event.target.result;
 
-                fetch('/generate-qr', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ config: configContent })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.qrCode) {
+                try {
+                    const response = await fetch('/generate-qr', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ config: configContent })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.qrCode) {
+                        // Store config and display QR code
+                        currentConfig = data.config;
                         qrCodeImage.src = data.qrCode;
                         popup.style.display = 'block';
                         const uploadForm = document.getElementById('upload-form');
                         uploadForm.reset();
                     } else {
-                        alert("Failed to generate QR code.");
+                        // Display validation errors
+                        displayErrors(data.errors || [data.error]);
                     }
-                })
-                .catch(error => console.error('Error:', error));
+                } catch (error) {
+                    console.error('Error:', error);
+                    displayErrors(['Failed to generate QR code. Please try again.']);
+                }
             };
 
             reader.readAsText(fileInput.files[0]);
@@ -177,35 +214,105 @@
             }
         });
 
-        // Close the popup
+        // Close the popup and clear config from memory (SECURITY)
         closePopup.addEventListener('click', () => {
             popup.style.display = 'none';
+            currentConfig = null; // Clear config from memory
         });
 
         window.onclick = (event) => {
             if (event.target === popup) {
                 popup.style.display = 'none';
+                currentConfig = null; // Clear config from memory
             }
         };
 
+        // Download config function (CLIENT-SIDE ONLY - no server involved)
+        document.getElementById('download-config-btn').addEventListener('click', () => {
+            if (!currentConfig) {
+                alert('No configuration available to download');
+                return;
+            }
+
+            try {
+                // Create blob from config string (happens in browser memory only)
+                const blob = new Blob([currentConfig], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+
+                // Create temporary anchor element
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `wireguard-${Date.now()}.conf`;
+
+                // Trigger download
+                document.body.appendChild(a);
+                a.click();
+
+                // Clean up (remove element and revoke blob URL)
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                console.log('Config downloaded successfully');
+            } catch (error) {
+                console.error('Download failed:', error);
+                alert('Failed to download configuration');
+            }
+        });
+
+        // Error display functions
+        function displayErrors(errors) {
+            const errorContainer = document.getElementById('error-container');
+            const errorList = document.getElementById('error-list');
+
+            // Clear previous errors
+            errorList.innerHTML = '';
+
+            // Add each error as a list item
+            if (Array.isArray(errors)) {
+                errors.forEach(error => {
+                    const li = document.createElement('li');
+                    li.textContent = error;
+                    errorList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = errors;
+                errorList.appendChild(li);
+            }
+
+            // Show error container
+            errorContainer.style.display = 'block';
+
+            // Scroll to top to show errors
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function clearErrors() {
+            const errorContainer = document.getElementById('error-container');
+            const errorList = document.getElementById('error-list');
+            errorList.innerHTML = '';
+            errorContainer.style.display = 'none';
+        }
+
         // Copy to clipboard
         function copyToClipboard(elementId) {
-        const input = document.getElementById(elementId);
+            const input = document.getElementById(elementId);
 
-        // Temporarily change type to text to make the text visible for copying
-        const originalType = input.type;
-        input.type = "text";
+            // Temporarily change type to text to make the text visible for copying
+            const originalType = input.type;
+            input.type = "text";
 
-        // Select the text inside the input
-        input.select();
-        input.setSelectionRange(0, 99999); // For mobile devices
+            // Select the text inside the input
+            input.select();
+            input.setSelectionRange(0, 99999); // For mobile devices
 
-        // Execute the copy command
-        document.execCommand("copy");
+            // Execute the copy command
+            document.execCommand("copy");
 
-        // Revert back to the original input type (password)
-        input.type = originalType;
+            // Revert back to the original input type (password)
+            input.type = originalType;
         }
+
         // Reset form fields on page load
         window.onload = function() {
             const wgForm = document.getElementById('wireguard-form');

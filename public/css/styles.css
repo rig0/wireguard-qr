@@ -127,3 +127,62 @@ form button:hover {
 .footer-link:hover {
     text-decoration: underline;
 }
+
+/* Error Container Styles */
+.error-container {
+    background-color: #2e1e1e;
+    border: 2px solid #cc4039;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.error-container h3 {
+    color: #ff5555;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.error-container ul {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+.error-container li {
+    color: #ffb3b3;
+    margin: 5px 0;
+}
+
+.error-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #cc4039;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.error-container button:hover {
+    background-color: #ff5555;
+}
+
+/* Download Button in Popup */
+#download-config-btn {
+    width: 60%;
+    padding: 12px;
+    margin-top: 15px;
+    background-color: #4b7e96;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#download-config-btn:hover {
+    background-color: rgb(122, 186, 216);
+}
