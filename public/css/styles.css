@@ -1,12 +1,12 @@
 /* Catppuccin Macchiato Theme */
 :root {
     /* Base colors */
-    --ctp-base: #1b1e2d;
+    --ctp-base: #151723;
     --ctp-mantle: #1e2030;
     --ctp-crust: #181926;
 
     /* Surface colors */
-    --ctp-surface0: #252837;
+    --ctp-surface0: #1d202d;
     --ctp-surface1: #2c2f3f;
     --ctp-surface2: #3d4152;
 
@@ -29,7 +29,7 @@
     --ctp-yellow: #eed49f;
 
     /* Overlay */
-    --ctp-overlay0: rgba(54, 58, 79, 0.9);
+    --ctp-overlay0: rgba(18, 19, 27, 0.9);
 }
 
 body {
