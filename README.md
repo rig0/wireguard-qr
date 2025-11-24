@@ -1,33 +1,57 @@
-# Wireguard-QR
+<div align="center">
 
-A self hosted QR code generator for wireguard configurations. I'm aware of online solutions but I wanted something simple that I could self host. You just never know where your keys might end up when using public websites. This app is intended to run locally preferably behind a reverse proxy. 
+<img src="public/css/wg-qr.png" alt="WireGuard-QR" width="200"/>
 
+# WireGuard-QR
 
-# Features
-
-#### Create QR code from new config
-
-![Form](https://i.imgur.com/ZTQfy8L.png)
-
-![QR Code](https://i.imgur.com/PdVuMtY.png)
-
-
-#### Wireguard key generator
-
-![Key Generator](https://i.imgur.com/pl9FjOe.png)
-
-
-#### Create QR code from file
-
-![File Upload](https://i.imgur.com/b0SDPTP.png)
-
-# Setup
-
-### Option 1: Docker Compose (latest release)
 ![Docker Registry Status](https://services.rigslab.com/api/badge/34/status?style=for-the-badge) ![Docker Registry Uptime](https://services.rigslab.com/api/badge/34/uptime?style=for-the-badge)
 
+**A secure, self-hosted QR code generator for WireGuard configurations.**
+
+Built with security in mind. Your keys never leave your infrastructure.
+
+[Features](#features) • [Security](#security) • [Setup](#setup)
+
+</div>
+
+<div align="center">
+
+![WireGuard-QR Demo](https://i.imgur.com/ME9YNnD.png)
+![WireGuard-QR Demo](https://i.imgur.com/pDyLrDf.png)
+
+*Generate QR codes from forms with validation and download support*
+
+
+</div>
+
+## Features
+
+- 🔐 **Form-based QR Generation** - Enter config details and generate QR codes instantly
+- 📁 **File Upload Support** - Upload `.conf` files to generate QR codes
+- ✅ **Config Validation** - Real-time validation ensures configs are correct before generating
+- 💾 **Download Configs** - Export your configurations as `.conf` files
+- 🔑 **Key Generator** - Built-in WireGuard keypair generation
+- 🎨 **Modern UI** - Clean Catppuccin Macchiato inspired theme
+- 📱 **Mobile Friendly** - Responsive design works on all devices
+
+## Security
+
+**Zero-Storage Architecture** - Your configurations are never stored, logged, or persisted anywhere.
+
+- ❌ **No server-side storage** - Configs exist only during request/response
+- ❌ **No browser storage** - No localStorage, sessionStorage, or cookies
+- ❌ **No logging** - Config contents are never written to logs
+- ✅ **Client-side processing** - Downloads happen entirely in your browser
+- ✅ **Memory-only validation** - All operations are ephemeral
+- ✅ **Self-hosted** - Full control over your infrastructure
+
+**Why self-host?** Public QR generators ***might*** expose your private keys to third parties. This app ensures your WireGuard secrets stay yours.
+
+## Setup
+
+### Option 1: Docker Compose (Recommended)
+
 ```yaml
-version: "3"
 services:
   wireguard-qr:
     container_name: wireguard-qr
@@ -38,57 +62,59 @@ services:
       - 5182:5182
 ```
 
-### Option 2: Docker Compose (from source)
-
-##### Clone repo
-```bash
-git clone https://rigslab.com/Rambo/Wireguard-QR.git
-```
-
-##### Go to directory
-```bash
-cd ./Wireguard-QR
-```
-
-##### Build docker image
 ```bash
 docker-compose up -d
 ```
 
+### Option 2: Node.js (From Source)
 
-### Option 3: Node.js (from source)
-
-##### Install dependencies
 ```bash
-sudo apt update && sudo apt dist-upgrade -y && sudo apt install nodejs npm git -y
-```
+# Clone repository
+git clone https://github.com/rig0/wireguard-qr
+cd wireguard-qr
 
-##### Clone repo
-```bash
-git clone https://rigslab.com/Rambo/Wireguard-QR.git
-```
-
-##### Go to directory
-```bash
-cd ./Wireguard-QR
-```
-
-##### Install
-```bash
+# Install dependencies
 npm install
-```
 
-##### Run app
-```bash
+# Start application
 node app.js
 ```
 
-## Behavior
-- Treats Private Keys and PreShared Keys as sensitive passwords so they aren't shown in the interface and aren't saved by the browser.
-- Clears all forms after creating QR code
-- Clears all forms on page refresh
-- No configurations or QR codes are saved/logged either client side or server side
+The application will be available at `http://localhost:5182`
 
-## To Do:
-- Validate configs before creating QR code
-- Option to download created config?
+## Usage
+
+1. **Manual Entry**: Fill out the WireGuard config form and click "Create QR"
+2. **File Upload**: Upload an existing `.conf` file to generate a QR code
+3. **Generate Keys**: Use the built-in key generator for new configurations
+4. **Download**: After generating a QR code, download the config for safekeeping
+
+## Configuration
+
+- **Port**: Default `5182` (configurable via `PORT` environment variable)
+- **Reverse Proxy**: Recommended for production deployments
+
+## Security Features in Detail
+
+### Form Behavior
+- Private keys and preshared keys are masked (password fields)
+- All forms clear after QR generation
+- Forms reset on page reload
+- No browser autocomplete for sensitive fields
+
+### Validation
+- Validates Base64 key format (44 characters)
+- Checks CIDR notation for IPs
+- Validates endpoint format (host:port)
+- Ensures all required fields are present
+- Provides clear error messages for invalid configs
+
+### Download Process
+- Downloads are generated client-side using Blob API
+- No server request made for downloads
+- Config cleared from memory when popup closes
+- No network transmission of complete configs
+
+## Contributing
+
+This is a personal project, but suggestions are welcome! Open an issue to discuss improvements.

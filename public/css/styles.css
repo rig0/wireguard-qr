@@ -1,12 +1,45 @@
+/* Catppuccin Macchiato Theme */
+:root {
+    /* Base colors */
+    --ctp-base: #1b1e2d;
+    --ctp-mantle: #1e2030;
+    --ctp-crust: #181926;
+
+    /* Surface colors */
+    --ctp-surface0: #252837;
+    --ctp-surface1: #2c2f3f;
+    --ctp-surface2: #3d4152;
+
+    /* Text colors */
+    --ctp-text: #cad3f5;
+    --ctp-subtext1: #b8c0e0;
+    --ctp-subtext0: #a5adcb;
+
+    /* Accent colors */
+    --ctp-blue: #7a9fe8;
+    --ctp-sapphire: #7dc4e4;
+    --ctp-sky: #91d7e3;
+    --ctp-teal: #8bd5ca;
+
+    /* Status colors */
+    --ctp-red: #ed8796;
+    --ctp-maroon: #ee99a0;
+    --ctp-peach: #f5a97f;
+    --ctp-green: #a6da95;
+    --ctp-yellow: #eed49f;
+
+    /* Overlay */
+    --ctp-overlay0: rgba(54, 58, 79, 0.9);
+}
+
 body {
-    background-color: #121212;
-    color: #ffffff;
-    font-family: Arial, sans-serif;
+    background-color: var(--ctp-base);
+    color: var(--ctp-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     height: 100vh;
 }
 
@@ -22,45 +55,76 @@ body {
 }
 
 form {
-    background-color: #1e1e1e;
+    background-color: var(--ctp-surface0);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+form:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
 
 form h2 {
     margin: 10px 0;
+    color: var(--ctp-blue);
+}
+
+form h5 {
+    color: var(--ctp-subtext0);
+    font-weight: normal;
 }
 
 form label {
     display: block;
     text-align: left;
     margin: 10px 15px 5px;
+    color: var(--ctp-subtext1);
+    font-weight: 500;
 }
 
 form input {
     width: 90%;
     padding: 10px;
     margin-bottom: 15px;
-    border: none;
+    border: 2px solid transparent;
     border-radius: 5px;
-    background: #2e2e2e;
-    color: white;
+    background: var(--ctp-surface1);
+    color: var(--ctp-text);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+form input:focus {
+    outline: none;
+    border-color: var(--ctp-blue);
+    background: var(--ctp-surface2);
+}
+
+form input:hover {
+    background: var(--ctp-surface2);
 }
 
 form button {
     width: 30%;
     padding: 10px;
-    background-color: #4b7e96;
-    color: white;
+    background-color: var(--ctp-blue);
+    color: var(--ctp-crust);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 form button:hover {
-    background-color: rgb(122, 186, 216);
+    background-color: var(--ctp-sapphire);
+    transform: translateY(-1px);
+}
+
+form button:active {
+    transform: translateY(0);
 }
 
 .popup {
@@ -70,76 +134,125 @@ form button:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: var(--ctp-overlay0);
+    backdrop-filter: blur(4px);
     justify-content: center;
     align-items: center;
-    z-index: 1000; 
-    overflow: hidden; 
+    z-index: 1000;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .popup-content {
     position: fixed;
-    top: 50%; /* Start 50% down the viewport */
-    left: 50%; /* Start 50% across the viewport */
-    transform: translate(-50%, -50%); /* Shift back by 50% of the modal width/height */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: auto;
     height: auto;
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 10px;
+    background-color: var(--ctp-surface0);
+    padding: 30px;
+    border-radius: 12px;
     text-align: center;
-    color: white;
+    color: var(--ctp-text);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translate(-50%, -45%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+.popup-content h2 {
+    color: var(--ctp-blue);
+    margin-top: 0;
 }
 
 .popup-content img {
     max-width: 100%;
     height: auto;
     margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 #close-popup {
-    color: white;
+    color: var(--ctp-subtext0);
     float: right;
     font-size: 28px;
     cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
 #close-popup:hover {
-    color: #ff0000;
+    color: var(--ctp-red);
+    transform: rotate(90deg);
 }
 
 .footer {
     font-size: 13px;
-    color: #8d8d8d;
+    color: var(--ctp-subtext0);
     text-align: center;
     padding: 0 0 15px 0;
 }
 
 .footer-link {
-    color: #cc4039;
+    color: var(--ctp-maroon);
     text-decoration: none;
+    transition: color 0.2s ease;
 }
+
 .footer-link:visited {
-    color: #cc4039;
+    color: var(--ctp-maroon);
     text-decoration: none;
 }
 
 .footer-link:hover {
+    color: var(--ctp-red);
     text-decoration: underline;
 }
 
 /* Error Container Styles */
 .error-container {
-    background-color: #2e1e1e;
-    border: 2px solid #cc4039;
+    background-color: var(--ctp-surface0);
+    border: 2px solid var(--ctp-red);
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 20px;
     text-align: left;
+    box-shadow: 0 4px 12px rgba(237, 135, 150, 0.2);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .error-container h3 {
-    color: #ff5555;
+    color: var(--ctp-red);
     margin-top: 0;
     margin-bottom: 10px;
 }
@@ -150,24 +263,31 @@ form button:hover {
 }
 
 .error-container li {
-    color: #ffb3b3;
+    color: var(--ctp-peach);
     margin: 5px 0;
 }
 
 .error-container button {
     width: 100%;
     padding: 10px;
-    background-color: #cc4039;
-    color: white;
+    background-color: var(--ctp-red);
+    color: var(--ctp-crust);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
+    font-weight: 600;
     margin-top: 10px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .error-container button:hover {
-    background-color: #ff5555;
+    background-color: var(--ctp-maroon);
+    transform: translateY(-1px);
+}
+
+.error-container button:active {
+    transform: translateY(0);
 }
 
 /* Download Button in Popup */
@@ -175,14 +295,46 @@ form button:hover {
     width: 60%;
     padding: 12px;
     margin-top: 15px;
-    background-color: #4b7e96;
-    color: white;
+    background-color: var(--ctp-teal);
+    color: var(--ctp-crust);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 #download-config-btn:hover {
-    background-color: rgb(122, 186, 216);
+    background-color: var(--ctp-sky);
+    transform: translateY(-1px);
+}
+
+#download-config-btn:active {
+    transform: translateY(0);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 0 10px;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    form button {
+        width: 45%;
+    }
+
+    #download-config-btn {
+        width: 80%;
+    }
+
+    .popup-content {
+        width: 90%;
+        padding: 20px;
+    }
 }
