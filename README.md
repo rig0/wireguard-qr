@@ -16,8 +16,8 @@ Built with security in mind. Your keys never leave your infrastructure.
 
 <div align="center">
 
-![WireGuard-QR Demo](https://i.imgur.com/ME9YNnD.png)
-![WireGuard-QR Demo](https://i.imgur.com/pDyLrDf.png)
+![WireGuard-QR Demo](https://i.imgur.com/l0WuJvG.png)
+![WireGuard-QR Demo](https://i.imgur.com/E6XAW93.png)
 
 *Generate QR codes from forms with validation and download support*
 
