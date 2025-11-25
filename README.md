@@ -4,7 +4,9 @@
 
 # WireGuard-QR
 
-![Docker Registry Status](https://services.rigslab.com/api/badge/34/status?style=for-the-badge) ![Docker Registry Uptime](https://services.rigslab.com/api/badge/34/uptime?style=for-the-badge)
+![Docker Registry Status](https://services.rigslab.com/api/badge/34/status) ![Docker Registry Uptime](https://services.rigslab.com/api/badge/34/uptime)
+![GitHub last commit](https://img.shields.io/github/last-commit/rig0/wireguard-qr)
+![Release](https://img.shields.io/github/v/release/rig0/wireguard-qr)
 
 **A secure, self-hosted QR code generator for WireGuard configurations.**
 
