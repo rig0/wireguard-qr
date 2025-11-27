@@ -4,7 +4,7 @@
 
 # WireGuard-QR
 
-![Docker Registry Status](https://services.rigslab.com/api/badge/34/status) ![Docker Registry Uptime](https://services.rigslab.com/api/badge/34/uptime)
+![Wireguard-QR Demo Status](https://services.rigslab.com/api/badge/35/status) ![Wireguard-QR Demo Uptime](https://services.rigslab.com/api/badge/35/uptime)
 ![GitHub last commit](https://img.shields.io/github/last-commit/rig0/wireguard-qr)
 ![Release](https://img.shields.io/github/v/release/rig0/wireguard-qr)
 
@@ -12,7 +12,7 @@
 
 Built with security in mind. Your keys never leave your infrastructure.
 
-[Features](#features) • [Security](#security) • [Setup](#setup)
+[🌐 Live Demo](https://wg-qr.rigslab.com/) • [Features](#features) • [Security](#security) • [Setup](#setup)
 
 </div>
 
@@ -52,7 +52,7 @@ Built with security in mind. Your keys never leave your infrastructure.
 ## Setup
 
 ### Option 1: Docker Compose (Recommended)
-
+![Docker Registry Status](https://services.rigslab.com/api/badge/34/status) ![Docker Registry Uptime](https://services.rigslab.com/api/badge/34/uptime)
 ```yaml
 services:
   wireguard-qr:
