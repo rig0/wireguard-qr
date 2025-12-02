@@ -4,9 +4,14 @@
 
 # WireGuard-QR
 
-![Wireguard-QR Demo Status](https://services.rigslab.com/api/badge/35/status) ![Wireguard-QR Demo Uptime](https://services.rigslab.com/api/badge/35/uptime)
-![GitHub last commit](https://img.shields.io/github/last-commit/rig0/wireguard-qr)
-![Release](https://img.shields.io/github/v/release/rig0/wireguard-qr)
+![NodeJS](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
+![EJS](https://img.shields.io/badge/ejs-b5125e?logo=ejs&logoColor=white)
+![WireGuard](https://img.shields.io/badge/WireGuard-88171A?logo=wireguard&logoColor=white)
+
+![Release](https://img.shields.io/github/v/release/rig0/wireguard-qr?labelColor=222&color=80ff63)
+![Stability](https://img.shields.io/badge/stability-stable-80ff63?labelColor=222)
+![Maintained](https://img.shields.io/badge/maintained-yes-80ff63?labelColor=222)
+![GitHub last commit](https://img.shields.io/github/last-commit/rig0/wireguard-qr?labelColor=222&color=80ff63)
 
 **A secure, self-hosted QR code generator for WireGuard configurations.**
 
@@ -14,6 +19,7 @@ Built with security in mind. Your keys never leave your infrastructure.
 
 [🌐 Live Demo](https://wg-qr.rigslab.com/) • [Features](#features) • [Security](#security) • [Setup](#setup)
 
+[![Wireguard-QR Demo Status](https://img.shields.io/website?url=https%3A%2F%2Fwg-qr.rigslab.com&up_message=Online&up_color=80ff63&down_message=Down&down_color=d82537&style=flat&logo=web&label=Demo&labelColor=222)](https://wg-qr.rigslab.com/) ![Wireguard-QR Demo Uptime](https://services.rigslab.com/api/badge/35/uptime?label=Uptime&color=80ff63&labelColor=222)
 </div>
 
 <div align="center">
@@ -52,7 +58,7 @@ Built with security in mind. Your keys never leave your infrastructure.
 ## Setup
 
 ### Option 1: Docker Compose (Recommended)
-![Docker Registry Status](https://services.rigslab.com/api/badge/34/status) ![Docker Registry Uptime](https://services.rigslab.com/api/badge/34/uptime)
+
 ```yaml
 services:
   wireguard-qr:
