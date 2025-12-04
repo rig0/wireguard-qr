@@ -29,7 +29,6 @@ Built with security in mind. Your keys never leave your infrastructure.
 
 *Generate QR codes from forms with validation and download support*
 
-
 </div>
 
 ## Features
