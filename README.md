@@ -58,9 +58,6 @@ Built with security in mind. Your keys never leave your infrastructure.
 ## Setup
 
 ### Option 1: Docker Compose (Recommended)
-> [!NOTE]
-> Only exposes port internally. Intended for use locally or behind reverse proxy with SSL. Remove `127.0.0.1:` to expose port externally.
-
 ```yaml
 services:
   wireguard-qr:
@@ -75,6 +72,9 @@ services:
 ```bash
 docker-compose up -d
 ```
+> [!NOTE]
+> Only exposes port internally. Intended for use locally or behind reverse proxy with SSL. 
+> Remove `127.0.0.1:` to expose port externally.
 
 ### Option 2: Node.js (From Source)
 
