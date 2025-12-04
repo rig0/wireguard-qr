@@ -1,10 +1,10 @@
 version: '3'
 services:
-  wireguard-qr:
-    container_name: wireguard-qr
-    image: wireguard-qr:source
-    build: .
-    restart: always
-    user: "1000:1000"
-    ports:
-      - "5182:5182"
+    wireguard-qr:
+        container_name: wireguard-qr
+        image: wireguard-qr:source
+        build: .
+        restart: always
+        user: '1000:1000'
+        ports:
+            - '5182:5182'

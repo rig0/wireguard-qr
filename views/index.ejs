@@ -29,29 +29,29 @@
             <h2>Interface</h2>
             <label>PrivateKey</label>
             <input type="password" name="PrivateKey" required>
-            
+
             <label>Address</label>
             <input type="text" name="Address" required>
-            
+
             <label>DNS</label>
             <input type="text" name="DNS" required>
-            
+
             <h2>Peer</h2>
             <label>PublicKey</label>
             <input type="text" autocomplete="off" name="PublicKey" required>
-            
+
             <label>PreSharedKey</label>
             <input type="password" name="PreSharedKey">
-            
+
             <label>AllowedIPs</label>
             <input type="text" name="AllowedIPs" required>
-            
+
             <label>PersistentKeepAlive</label>
             <input type="text" name="PersistentKeepAlive">
-            
+
             <label>Endpoint</label>
             <input type="text" name="Endpoint" required>
-            
+
             <button type="submit">Create QR</button>
         </form>
         <br>
@@ -63,10 +63,10 @@
             <h5>(click fields to copy keys)</h5>
             <label>Private Key</label>
             <input type="password" id="generatedPrivateKey" readonly onclick="copyToClipboard('generatedPrivateKey')">
-            
+
             <label>Public Key</label>
             <input type="text" id="generatedPublicKey" readonly onclick="copyToClipboard('generatedPublicKey')">
-            
+
             <button type="button" id="generateKeysButton">Generate Keys</button>
         </form>
         <br>
@@ -86,7 +86,7 @@
             2025 <a href="https://github.com/rig0/wireguard-qr" target="_blank" class="footer-link">Wireguard-QR</a> v<%= version %>
         </div>
     </div>
-    
+
     <div id="qr-popup" class="popup">
         <div class="popup-content">
             <span id="close-popup">&times;</span>
@@ -96,7 +96,7 @@
             <button id="download-config-btn" type="button">Download Config</button>
         </div>
     </div>
-    
+
     <script>
         // Global variable to store current config (temporary, in-memory only)
         // SECURITY: This is cleared when popup closes

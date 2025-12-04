@@ -49,7 +49,7 @@ function isValidIPv4(ip) {
 
     // Check octets are in valid range (0-255)
     const octets = ip.split('.');
-    return octets.every(octet => {
+    return octets.every((octet) => {
         const num = parseInt(octet, 10);
         return num >= 0 && num <= 255;
     });
@@ -96,14 +96,6 @@ function isValidEndpoint(endpoint) {
 }
 
 /**
- * Helper: Check if port number is valid
- */
-function isValidPort(port) {
-    const num = parseInt(port, 10);
-    return !isNaN(num) && num >= 1 && num <= 65535;
-}
-
-/**
  * Helper: Parse WireGuard config into sections
  * @param {string} configString - Raw config string
  * @returns {object} Parsed sections (Interface, Peer)
@@ -111,7 +103,7 @@ function isValidPort(port) {
 function parseConfigSections(configString) {
     const sections = {
         Interface: {},
-        Peer: {}
+        Peer: {},
     };
 
     let currentSection = null;
@@ -156,7 +148,7 @@ function validateWireguardConfig(configString) {
     if (!configString || typeof configString !== 'string') {
         return {
             valid: false,
-            errors: ['Config is empty or invalid']
+            errors: ['Config is empty or invalid'],
         };
     }
 
@@ -175,7 +167,9 @@ function validateWireguardConfig(configString) {
         if (!iface.PrivateKey) {
             errors.push('PrivateKey is required in [Interface]');
         } else if (!isValidBase64Key(iface.PrivateKey)) {
-            errors.push('Invalid PrivateKey format (must be 44-character base64 string)');
+            errors.push(
+                'Invalid PrivateKey format (must be 44-character base64 string)'
+            );
         }
 
         // Address (required)
@@ -183,19 +177,27 @@ function validateWireguardConfig(configString) {
             errors.push('Address is required in [Interface]');
         } else {
             // Address can be comma-separated list of CIDRs
-            const addresses = iface.Address.split(',').map(a => a.trim());
-            const invalidAddresses = addresses.filter(addr => !isValidCIDR(addr));
+            const addresses = iface.Address.split(',').map((a) => a.trim());
+            const invalidAddresses = addresses.filter(
+                (addr) => !isValidCIDR(addr)
+            );
             if (invalidAddresses.length > 0) {
-                errors.push(`Invalid Address format (use CIDR notation, e.g., 10.0.0.2/24): ${invalidAddresses.join(', ')}`);
+                errors.push(
+                    `Invalid Address format (use CIDR notation, e.g., 10.0.0.2/24): ${invalidAddresses.join(
+                        ', '
+                    )}`
+                );
             }
         }
 
         // DNS (optional)
         if (iface.DNS) {
-            const dnsServers = iface.DNS.split(',').map(d => d.trim());
-            const invalidDNS = dnsServers.filter(dns => !isValidIPv4(dns));
+            const dnsServers = iface.DNS.split(',').map((d) => d.trim());
+            const invalidDNS = dnsServers.filter((dns) => !isValidIPv4(dns));
             if (invalidDNS.length > 0) {
-                errors.push(`Invalid DNS server format: ${invalidDNS.join(', ')}`);
+                errors.push(
+                    `Invalid DNS server format: ${invalidDNS.join(', ')}`
+                );
             }
         }
 
@@ -203,7 +205,9 @@ function validateWireguardConfig(configString) {
         if (iface.MTU) {
             const mtu = parseInt(iface.MTU, 10);
             if (isNaN(mtu) || mtu < 576 || mtu > 65535) {
-                errors.push('Invalid MTU value (must be between 576 and 65535)');
+                errors.push(
+                    'Invalid MTU value (must be between 576 and 65535)'
+                );
             }
         }
     }
@@ -220,37 +224,51 @@ function validateWireguardConfig(configString) {
         if (!peer.PublicKey) {
             errors.push('PublicKey is required in [Peer]');
         } else if (!isValidBase64Key(peer.PublicKey)) {
-            errors.push('Invalid PublicKey format (must be 44-character base64 string)');
+            errors.push(
+                'Invalid PublicKey format (must be 44-character base64 string)'
+            );
         }
 
         // Endpoint (required)
         if (!peer.Endpoint) {
             errors.push('Endpoint is required in [Peer]');
         } else if (!isValidEndpoint(peer.Endpoint)) {
-            errors.push('Invalid Endpoint format (use hostname:port or ip:port, e.g., vpn.example.com:51820)');
+            errors.push(
+                'Invalid Endpoint format (use hostname:port or ip:port, e.g., vpn.example.com:51820)'
+            );
         }
 
         // AllowedIPs (required)
         if (!peer.AllowedIPs) {
             errors.push('AllowedIPs is required in [Peer]');
         } else {
-            const allowedIPs = peer.AllowedIPs.split(',').map(ip => ip.trim());
-            const invalidIPs = allowedIPs.filter(ip => !isValidCIDR(ip));
+            const allowedIPs = peer.AllowedIPs.split(',').map((ip) =>
+                ip.trim()
+            );
+            const invalidIPs = allowedIPs.filter((ip) => !isValidCIDR(ip));
             if (invalidIPs.length > 0) {
-                errors.push(`Invalid AllowedIPs format (use CIDR notation): ${invalidIPs.join(', ')}`);
+                errors.push(
+                    `Invalid AllowedIPs format (use CIDR notation): ${invalidIPs.join(
+                        ', '
+                    )}`
+                );
             }
         }
 
         // PreSharedKey (optional)
         if (peer.PreSharedKey && !isValidBase64Key(peer.PreSharedKey)) {
-            errors.push('Invalid PreSharedKey format (must be 44-character base64 string)');
+            errors.push(
+                'Invalid PreSharedKey format (must be 44-character base64 string)'
+            );
         }
 
         // PersistentKeepAlive (optional)
         if (peer.PersistentKeepAlive) {
             const keepalive = parseInt(peer.PersistentKeepAlive, 10);
             if (isNaN(keepalive) || keepalive < 0 || keepalive > 65535) {
-                errors.push('Invalid PersistentKeepAlive value (must be between 0 and 65535)');
+                errors.push(
+                    'Invalid PersistentKeepAlive value (must be between 0 and 65535)'
+                );
             }
         }
     }
@@ -258,7 +276,7 @@ function validateWireguardConfig(configString) {
     // Return validation result (errors only, no config data)
     return {
         valid: errors.length === 0,
-        errors
+        errors,
     };
 }
 
@@ -280,12 +298,14 @@ function validateFormData(formData) {
     if (!formData.Address) {
         errors.push('Address is required');
     } else if (!isValidCIDR(formData.Address)) {
-        errors.push('Invalid Address format (use CIDR notation, e.g., 10.0.0.2/24)');
+        errors.push(
+            'Invalid Address format (use CIDR notation, e.g., 10.0.0.2/24)'
+        );
     }
 
     if (formData.DNS) {
-        const dnsServers = formData.DNS.split(',').map(d => d.trim());
-        const invalidDNS = dnsServers.filter(dns => !isValidIPv4(dns));
+        const dnsServers = formData.DNS.split(',').map((d) => d.trim());
+        const invalidDNS = dnsServers.filter((dns) => !isValidIPv4(dns));
         if (invalidDNS.length > 0) {
             errors.push(`Invalid DNS server format: ${invalidDNS.join(', ')}`);
         }
@@ -307,8 +327,10 @@ function validateFormData(formData) {
     if (!formData.AllowedIPs) {
         errors.push('AllowedIPs is required');
     } else {
-        const allowedIPs = formData.AllowedIPs.split(',').map(ip => ip.trim());
-        const invalidIPs = allowedIPs.filter(ip => !isValidCIDR(ip));
+        const allowedIPs = formData.AllowedIPs.split(',').map((ip) =>
+            ip.trim()
+        );
+        const invalidIPs = allowedIPs.filter((ip) => !isValidCIDR(ip));
         if (invalidIPs.length > 0) {
             errors.push(`Invalid AllowedIPs format: ${invalidIPs.join(', ')}`);
         }
@@ -327,11 +349,11 @@ function validateFormData(formData) {
 
     return {
         valid: errors.length === 0,
-        errors
+        errors,
     };
 }
 
 module.exports = {
     validateWireguardConfig,
-    validateFormData
+    validateFormData,
 };

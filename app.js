@@ -3,7 +3,10 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const QRCode = require('qrcode');
 const sodium = require('sodium-native');
-const { validateWireguardConfig, validateFormData } = require('./validators/wireguard');
+const {
+    validateWireguardConfig,
+    validateFormData,
+} = require('./validators/wireguard');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,7 +17,7 @@ app.set('view engine', 'ejs');
 const version = require('./package.json').version;
 
 // Add body parser middleware to handle JSON
-app.use(express.json()); 
+app.use(express.json());
 
 // Route for the main page
 app.get('/', (req, res) => {
@@ -28,15 +31,26 @@ app.get('/api/version', (req, res) => {
 
 // Route to generate the QR code
 app.post('/create-qr', async (req, res) => {
-    const { PrivateKey, Address, DNS, PublicKey, PreSharedKey, AllowedIPs, PersistentKeepAlive, Endpoint } = req.body;
+    const {
+        PrivateKey,
+        Address,
+        DNS,
+        PublicKey,
+        PreSharedKey,
+        AllowedIPs,
+        PersistentKeepAlive,
+        Endpoint,
+    } = req.body;
 
     // Validate form data (in-memory only, no storage)
     const validation = validateFormData(req.body);
     if (!validation.valid) {
-        console.log(`Config validation failed: ${validation.errors.length} errors`);
+        console.log(
+            `Config validation failed: ${validation.errors.length} errors`
+        );
         return res.status(400).json({
             error: 'Configuration validation failed',
-            errors: validation.errors
+            errors: validation.errors,
         });
     }
 
@@ -58,7 +72,7 @@ Endpoint = ${Endpoint}`;
         // Return QR code and config string (config sent back to client only)
         res.json({ qrCode, config });
     } catch (error) {
-        console.error('QR Code generation error');
+        console.error('QR Code generation error:', error);
         res.status(500).json({ error: 'Failed to generate QR code' });
     }
 });
@@ -66,23 +80,29 @@ Endpoint = ${Endpoint}`;
 app.post('/generate-qr', express.json(), (req, res) => {
     const { config } = req.body;
     if (!config) {
-        return res.status(400).json({ error: 'No configuration file content provided' });
+        return res
+            .status(400)
+            .json({ error: 'No configuration file content provided' });
     }
 
     // Validate config string (in-memory only, no storage)
     const validation = validateWireguardConfig(config);
     if (!validation.valid) {
-        console.log(`Config validation failed: ${validation.errors.length} errors`);
+        console.log(
+            `Config validation failed: ${validation.errors.length} errors`
+        );
         return res.status(400).json({
             error: 'Configuration validation failed',
-            errors: validation.errors
+            errors: validation.errors,
         });
     }
 
     QRCode.toDataURL(config, (err, url) => {
         if (err) {
             console.error('QR Code generation error');
-            return res.status(500).json({ error: 'Failed to generate QR code' });
+            return res
+                .status(500)
+                .json({ error: 'Failed to generate QR code' });
         }
 
         // Return QR code and config string (config sent back to client only)
@@ -98,10 +118,9 @@ app.post('/generate-keys', (req, res) => {
 
     res.json({
         privateKey: privateKey.toString('base64'),
-        publicKey: publicKey.toString('base64')
+        publicKey: publicKey.toString('base64'),
     });
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 5182;
