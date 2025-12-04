@@ -58,16 +58,18 @@ Built with security in mind. Your keys never leave your infrastructure.
 ## Setup
 
 ### Option 1: Docker Compose (Recommended)
+> [!NOTE]
+> Only exposes port internally. Intended for use locally or behind reverse proxy with SSL. Remove `127.0.0.1:` to expose port externally.
 
 ```yaml
 services:
   wireguard-qr:
     container_name: wireguard-qr
-    image: dock.rigslab.com/wireguard-qr:latest
+    image: rig05/wireguard-qr:latest
     restart: always
     user: 1000:1000
     ports:
-      - 5182:5182
+      - 127.0.0.1:5182:5182
 ```
 
 ```bash
