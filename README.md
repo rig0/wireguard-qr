@@ -6,6 +6,8 @@
 
 ![NodeJS](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
 ![EJS](https://img.shields.io/badge/ejs-b5125e?logo=ejs&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?logo=eslint&logoColor=white)
+![Prettier](https://img.shields.io/badge/Prettier-F7B93E?logo=prettier&logoColor=black)
 ![WireGuard](https://img.shields.io/badge/WireGuard-88171A?logo=wireguard&logoColor=white)
 
 [![Release](https://img.shields.io/github/v/release/rig0/wireguard-qr?labelColor=222&color=80ff63)](https://github.com/rig0/wireguard-qr/releases/)
