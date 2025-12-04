@@ -1,6 +1,6 @@
 {
   "name": "wireguard-qr",
-  "version": "1.1.3",
+  "version": "1.1.2",
   "description": "A self hosted QR code generator for wireguard configs",
   "main": "app.js",
   "scripts": {
@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://rigslab.com/Rambo/Wireguard-QR.git"
+    "url": "https://github.com/rig0/wireguard-qr.git"
   },
   "keywords": [],
-  "author": "Rambo",
+  "author": "Rigo",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.20.3",
