@@ -14,8 +14,10 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install Node.js dependencies
-RUN npm install
+# Install build dependencies for native modules (sodium-native), install npm packages, then remove build deps
+RUN apk add --no-cache --virtual .build-deps python3 make g++ && \
+    npm install && \
+    apk del .build-deps
 
 # Copy the rest of the application files
 COPY . .
