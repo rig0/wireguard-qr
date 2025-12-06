@@ -124,6 +124,7 @@ app.post('/generate-keys', (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT || 5182;
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+const HOST = '0.0.0.0'; // Listen on all interfaces for Docker
+app.listen(PORT, HOST, () => {
+    console.log(`Server running on http://${HOST}:${PORT}`);
 });
