@@ -11,7 +11,7 @@
 ![WireGuard](https://img.shields.io/badge/WireGuard-88171A?logo=wireguard&logoColor=white)
 
 [![Release](https://img.shields.io/github/v/release/rig0/wireguard-qr?labelColor=222&color=80ff63)](https://github.com/rig0/wireguard-qr/releases/)
-![Stability](https://img.shields.io/badge/stability-stable-80ff63?labelColor=222)
+[![Code Factor](https://img.shields.io/codefactor/grade/github/rig0/wireguard-qr?color=80ff63&labelColor=222)](https://www.codefactor.io/repository/github/rig0/wireguard-qr/overview/main)
 ![Maintained](https://img.shields.io/badge/maintained-yes-80ff63?labelColor=222)
 ![GitHub last commit](https://img.shields.io/github/last-commit/rig0/wireguard-qr?labelColor=222&color=80ff63)
 
